@@ -3,35 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora</title>
+    <title>Calculadora Moderna</title>
     <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="calculadora">
         <div class="pantalla-container">
             <input type="text" class="pantalla" id="pantalla" disabled>
+            <div class="resultado-parcial" id="resultado-parcial"></div>
         </div>
         <div class="botones">
-            <button onclick="limpiar()">C</button>
-            <button onclick="borrar('')">←</button>
-            <button onclick="alternarParentesis()">()</button>
-            <button onclick="operar('/')">÷</button>
-            <button onclick="agregarNumero(7)">7</button>
-            <button onclick="agregarNumero(8)">8</button>
-            <button onclick="agregarNumero(9)">9</button>
-            <button onclick="operar('*')">×</button>
-            <button onclick="agregarNumero(4)">4</button>
-            <button onclick="agregarNumero(5)">5</button>
-            <button onclick="agregarNumero(6)">6</button>
-            <button onclick="operar('-')">−</button>
-            <button onclick="agregarNumero(1)">1</button>
-            <button onclick="agregarNumero(2)">2</button>
-            <button onclick="agregarNumero(3)">3</button>
-            <button onclick="operar('+')">+</button>
-            <button onclick="cambiarSigno()">±</button>
-            <button onclick="agregarNumero(0)">0</button>
-            <button onclick="agregar('.')">.</button>
-            <button onclick="calcular()">=</button>
+            <button onclick="limpiar()" class="btn-accion">C</button>
+            <button onclick="alternarParentesis()" class="btn-operador">( )</button>
+            <button onclick="operar('×')" class="btn-operador">×</button>
+            <button onclick="borrar()" class="btn-accion">⌫</button>
+            
+            <button onclick="agregarNumero(7)" class="btn-numero">7</button>
+            <button onclick="agregarNumero(8)" class="btn-numero">8</button>
+            <button onclick="agregarNumero(9)" class="btn-numero">9</button>
+            <button onclick="operar('÷')" class="btn-operador">÷</button>
+            
+            <button onclick="agregarNumero(4)" class="btn-numero">4</button>
+            <button onclick="agregarNumero(5)" class="btn-numero">5</button>
+            <button onclick="agregarNumero(6)" class="btn-numero">6</button>
+            <button onclick="operar('-')" class="btn-operador">−</button>
+            
+            <button onclick="agregarNumero(1)" class="btn-numero">1</button>
+            <button onclick="agregarNumero(2)" class="btn-numero">2</button>
+            <button onclick="agregarNumero(3)" class="btn-numero">3</button>
+            <button onclick="operar('+')" class="btn-operador">+</button>
+            
+            <button onclick="calcularPorcentaje()" class="btn-numero">%</button>
+            <button onclick="agregarNumero(0)" class="btn-numero">0</button>
+            <button onclick="agregar('.')" class="btn-numero">,</button>
+            <button onclick="calcular()" class="btn-igual">=</button>
         </div>
     </div>
     <script src="script.js"></script>
