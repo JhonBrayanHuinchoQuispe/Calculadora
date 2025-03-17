@@ -13,6 +13,7 @@ function actualizarPantalla() {
 
 function agregarNumero(numero) {
     if (ultimaOperacion) {
+        expresionActual = '';
         ultimaOperacion = false;
     }
     
@@ -33,7 +34,9 @@ function agregarNumero(numero) {
 function agregar(caracter) {
     if (ultimaOperacion) {
         if (caracter === '.' && !expresionActual.includes('.')) {
-            expresionActual += caracter;
+            expresionActual = '0' + caracter;
+        } else {
+            expresionActual = '';
         }
         ultimaOperacion = false;
     } else {
@@ -128,9 +131,9 @@ function extraerUltimaParteNumerica(expresion) {
 
 function alternarParentesis() {
     if (ultimaOperacion) {
-        expresionActual = '(' + expresionActual;
-        parentesisAbiertos++;
         ultimaOperacion = false;
+        expresionActual += '(';
+        parentesisAbiertos++;
     } else {
         if (parentesisAbiertos > 0 && !/[\+\-\×\/\(]\s*$/.test(expresionActual)) {
             expresionActual += ')';
@@ -138,10 +141,12 @@ function alternarParentesis() {
         } else {
             if (expresionActual !== '' && 
                 !/[\+\-\×\/\(]\s*$/.test(expresionActual) && 
-                !/\s$/.test(expresionActual)) {
-                expresionActual += ' × ';
+                !/\s$/.test(expresionActual) &&
+                /\d$/.test(expresionActual)) {
+                expresionActual += ' × (';
+            } else {
+                expresionActual += '(';
             }
-            expresionActual += '(';
             parentesisAbiertos++;
         }
     }
@@ -269,9 +274,7 @@ function procesarPorcentajes(expresion) {
 
 function manejarMultiplicacionesImplicitas(expresion) {
     expresion = expresion.replace(/(\d+)(\()/g, '$1 * $2');
-    
     expresion = expresion.replace(/\)(\()/g, ') * $1');
-    
     expresion = expresion.replace(/\)(\d+)/g, ') * $1');
     
     return expresion;
