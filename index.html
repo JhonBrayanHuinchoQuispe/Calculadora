@@ -3,43 +3,118 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora Inteligente</title>
+    <title>Calculadora Científica Avanzada</title>
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <div class="calculadora">
-        <div class="pantalla-container">
-            <input type="text" class="pantalla" id="pantalla" disabled>
-            <div class="resultado-parcial" id="resultado-parcial"></div>
+    <div class="app-container">
+        <!-- Barra superior -->
+        <div class="header">
+            <h1>Calculadora Científica</h1>
+            <div class="header-controls">
+                <button id="toggle-theme" class="theme-toggle" title="Cambiar tema">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button id="toggle-mode" class="mode-toggle" title="Modo científico">
+                    <i class="fas fa-calculator"></i>
+                    <span>Científico</span>
+                </button>
+            </div>
         </div>
-        <div class="botones">
-            <button onclick="limpiar()" class="btn-accion">C</button>
-            <button onclick="alternarParentesis()" class="btn-operador">( )</button>
-            <button onclick="operar('×')" class="btn-operador">×</button>
-            <button onclick="borrar()" class="btn-accion">⌫</button>
-            
-            <button onclick="agregarNumero(7)" class="btn-numero">7</button>
-            <button onclick="agregarNumero(8)" class="btn-numero">8</button>
-            <button onclick="agregarNumero(9)" class="btn-numero">9</button>
-            <button onclick="operar('÷')" class="btn-operador">÷</button>
-            
-            <button onclick="agregarNumero(4)" class="btn-numero">4</button>
-            <button onclick="agregarNumero(5)" class="btn-numero">5</button>
-            <button onclick="agregarNumero(6)" class="btn-numero">6</button>
-            <button onclick="operar('-')" class="btn-operador">−</button>
-            
-            <button onclick="agregarNumero(1)" class="btn-numero">1</button>
-            <button onclick="agregarNumero(2)" class="btn-numero">2</button>
-            <button onclick="agregarNumero(3)" class="btn-numero">3</button>
-            <button onclick="operar('+')" class="btn-operador">+</button>
-            
-            <button onclick="calcularPorcentaje()" class="btn-numero">%</button>
-            <button onclick="agregarNumero(0)" class="btn-numero">0</button>
-            <button onclick="agregar('.')" class="btn-numero">,</button>
-            <button onclick="calcular()" class="btn-igual">=</button>
+
+        <div class="main-content">
+            <!-- Panel del historial -->
+            <div class="history-panel" id="history-panel">
+                <div class="history-header">
+                    <h3>Historial</h3>
+                    <button id="clear-history" title="Limpiar historial">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+                <div class="history-list" id="history-list">
+                    <p class="no-history">Sin operaciones recientes</p>
+                </div>
+            </div>
+
+            <!-- Calculadora principal -->
+            <div class="calculadora" id="calculadora">
+                <!-- Pantalla mejorada -->
+                <div class="pantalla-container">
+                    <div class="pantalla-superior">
+                        <div class="memoria-indicator" id="memoria-indicator">M</div>
+                        <button class="history-toggle" id="history-toggle" title="Mostrar/ocultar historial">
+                            <i class="fas fa-history"></i>
+                        </button>
+                    </div>
+                    <input type="text" class="pantalla" id="pantalla" disabled>
+                    <div class="resultado-parcial" id="resultado-parcial"></div>
+                </div>
+
+                <!-- Botones científicos (modo científico) -->
+                <div class="botones-cientificos" id="botones-cientificos">
+                    <button onclick="agregarFuncion('sin(')" class="btn-cientifico">sin</button>
+                    <button onclick="agregarFuncion('cos(')" class="btn-cientifico">cos</button>
+                    <button onclick="agregarFuncion('tan(')" class="btn-cientifico">tan</button>
+                    <button onclick="agregarFuncion('log(')" class="btn-cientifico">log</button>
+
+                    <button onclick="agregarFuncion('asin(')" class="btn-cientifico">sin⁻¹</button>
+                    <button onclick="agregarFuncion('acos(')" class="btn-cientifico">cos⁻¹</button>
+                    <button onclick="agregarFuncion('atan(')" class="btn-cientifico">tan⁻¹</button>
+                    <button onclick="agregarFuncion('ln(')" class="btn-cientifico">ln</button>
+
+                    <button onclick="agregarConstante('π')" class="btn-constante">π</button>
+                    <button onclick="agregarConstante('e')" class="btn-constante">e</button>
+                    <button onclick="calcularFactorial()" class="btn-cientifico">n!</button>
+                    <button onclick="operar('^')" class="btn-cientifico">x^y</button>
+                </div>
+
+                <!-- Botones principales -->
+                <div class="botones">
+                    <!-- Fila de memoria y funciones especiales -->
+                    <button onclick="memoriaLimpiar()" class="btn-memoria">MC</button>
+                    <button onclick="memoriaRecordar()" class="btn-memoria">MR</button>
+                    <button onclick="memoriaAgregar()" class="btn-memoria">M+</button>
+                    <button onclick="memoriaRestar()" class="btn-memoria">M-</button>
+
+                    <!-- Fila de operaciones avanzadas -->
+                    <button onclick="calcularRaiz()" class="btn-funcion">√</button>
+                    <button onclick="calcularCuadrado()" class="btn-funcion">x²</button>
+                    <button onclick="calcularCubo()" class="btn-funcion">x³</button>
+                    <button onclick="calcularInverso()" class="btn-funcion">1/x</button>
+
+                    <!-- Fila de control -->
+                    <button onclick="limpiar()" class="btn-accion">C</button>
+                    <button onclick="alternarParentesis()" class="btn-operador">( )</button>
+                    <button onclick="operar('×')" class="btn-operador">×</button>
+                    <button onclick="borrar()" class="btn-accion">⌫</button>
+                    
+                    <!-- Números y operaciones básicas -->
+                    <button onclick="agregarNumero(7)" class="btn-numero">7</button>
+                    <button onclick="agregarNumero(8)" class="btn-numero">8</button>
+                    <button onclick="agregarNumero(9)" class="btn-numero">9</button>
+                    <button onclick="operar('÷')" class="btn-operador">÷</button>
+                    
+                    <button onclick="agregarNumero(4)" class="btn-numero">4</button>
+                    <button onclick="agregarNumero(5)" class="btn-numero">5</button>
+                    <button onclick="agregarNumero(6)" class="btn-numero">6</button>
+                    <button onclick="operar('-')" class="btn-operador">−</button>
+                    
+                    <button onclick="agregarNumero(1)" class="btn-numero">1</button>
+                    <button onclick="agregarNumero(2)" class="btn-numero">2</button>
+                    <button onclick="agregarNumero(3)" class="btn-numero">3</button>
+                    <button onclick="operar('+')" class="btn-operador">+</button>
+                    
+                    <button onclick="calcularPorcentaje()" class="btn-numero">%</button>
+                    <button onclick="agregarNumero(0)" class="btn-numero">0</button>
+                    <button onclick="agregar('.')" class="btn-numero">,</button>
+                    <button onclick="calcular()" class="btn-igual">=</button>
+                </div>
+            </div>
         </div>
     </div>
+    
     <script src="script.js"></script>
 </body>
 </html>

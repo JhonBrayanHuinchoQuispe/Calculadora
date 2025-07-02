@@ -3,12 +3,106 @@ let resultadoParcial = '';
 let esperandoSegundoOperando = false;
 let parentesisAbiertos = 0;
 let ultimaOperacion = false;
+let modoRadianes = true;
+let modoLuz = false;
+let modoCientifico = false;
+let memoria = 0;
+let historial = [];
+
+const CONSTANTES = {
+    'π': Math.PI,
+    'e': Math.E
+};
+
+function inicializar() {
+    cargarConfiguracion();
+    configurarEventListeners();
+    actualizarInterfaz();
+    limpiar();
+}
+
+function cargarConfiguracion() {
+    modoLuz = localStorage.getItem('calculadora-tema') === 'light';
+    modoCientifico = localStorage.getItem('calculadora-modo') === 'cientifico';
+    memoria = parseFloat(localStorage.getItem('calculadora-memoria')) || 0;
+    historial = JSON.parse(localStorage.getItem('calculadora-historial')) || [];
+    
+    document.body.setAttribute('data-theme', modoLuz ? 'light' : 'dark');
+}
+
+function guardarConfiguracion() {
+    localStorage.setItem('calculadora-tema', modoLuz ? 'light' : 'dark');
+    localStorage.setItem('calculadora-modo', modoCientifico ? 'cientifico' : 'basico');
+    localStorage.setItem('calculadora-memoria', memoria.toString());
+    localStorage.setItem('calculadora-historial', JSON.stringify(historial));
+}
+
+function configurarEventListeners() {
+    document.getElementById('toggle-theme').addEventListener('click', alternarTema);
+    
+    document.getElementById('toggle-mode').addEventListener('click', alternarModo);
+    
+    document.getElementById('history-toggle').addEventListener('click', alternarHistorial);
+    
+    document.getElementById('clear-history').addEventListener('click', limpiarHistorial);
+    
+    document.addEventListener('keydown', manejarTeclado);
+    
+    window.addEventListener('resize', ajustarInterfazMovil);
+}
 
 function actualizarPantalla() {
     const pantalla = document.getElementById('pantalla');
     const resultadoElement = document.getElementById('resultado-parcial');
+    const memoriaIndicator = document.getElementById('memoria-indicator');
+    
     pantalla.value = expresionActual;
     resultadoElement.textContent = resultadoParcial;
+    
+    memoriaIndicator.classList.toggle('active', memoria !== 0);
+}
+
+function actualizarInterfaz() {
+    const botonesCientificos = document.getElementById('botones-cientificos');
+    const modeButton = document.getElementById('toggle-mode');
+    const themeButton = document.getElementById('toggle-theme');
+    
+    botonesCientificos.classList.toggle('show', modoCientifico);
+    modeButton.innerHTML = modoCientifico ? 
+        '<i class="fas fa-calculator"></i><span>Básico</span>' : 
+        '<i class="fas fa-microscope"></i><span>Científico</span>';
+    
+    themeButton.innerHTML = modoLuz ? 
+        '<i class="fas fa-sun"></i>' : 
+        '<i class="fas fa-moon"></i>';
+    
+    actualizarHistorial();
+    guardarConfiguracion();
+}
+
+function alternarTema() {
+    modoLuz = !modoLuz;
+    document.body.setAttribute('data-theme', modoLuz ? 'light' : 'dark');
+    actualizarInterfaz();
+}
+
+function alternarModo() {
+    modoCientifico = !modoCientifico;
+    actualizarInterfaz();
+}
+
+function alternarHistorial() {
+    const historialPanel = document.getElementById('history-panel');
+    historialPanel.classList.toggle('show');
+}
+
+function ajustarInterfazMovil() {
+    const isMobile = window.innerWidth <= 768;
+    const historialPanel = document.getElementById('history-panel');
+    
+    if (isMobile && historialPanel.classList.contains('show')) {
+        historialPanel.style.maxHeight = '50vh';
+    }
 }
 
 function agregarNumero(numero) {
